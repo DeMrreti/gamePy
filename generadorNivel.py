@@ -1,11 +1,10 @@
 import pyglet
 import random
-from pyglet.window import key, mouse
-from pyglet import shapes
+import constants
 
 def positionGenerator() :
-    posicionesX = [25,75,125,175,225,275,325,375]
-    x = int(random.randint(0,7))
+    posicionesX = [25,75,125,175,225,275,325,375,425,475,525,575]
+    x = int(random.randint(0,12))
     return posicionesX[x]
 
 def spawApples(apples) :
