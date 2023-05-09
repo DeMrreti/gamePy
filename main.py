@@ -12,7 +12,7 @@ j1 = player()
 fps_display = pyglet.window.FPSDisplay(main)
 
 tierra = pyglet.shapes.Rectangle(0,0,constants.width,constants.width,(60,152,0), batch=gui)
-puntos = pyglet.text.Label(text=str(player.score),font_size=18,x=550,y=constants.width+15,color=(255,255,255,255),align='right',batch=gui)
+puntos = pyglet.text.Label(text=player.getScore(player),font_size=18,x=550,y=constants.width+15,color=(255,255,255,255),align='right',batch=gui)
 linea = pyglet.shapes.Line(0,constants.width+1,constants.width,constants.width+1,1,(255,255,255),batch=gui)
 texto = pyglet.text.Label(text=constants.msg,font_size=18,x=25,y=constants.width+15,color=(255,255,255,255),batch=gui)
 circulo = pyglet.shapes.Rectangle(0,0,50,50,(55,55,255),batch=jugador)
@@ -31,8 +31,7 @@ def comprobarFronteras(x,y):
 def comprobarPuntos(x,y,x2,y2):
     if x == x2-25 and y == y2-25:
         star.color = (0,0,0,0)
-        print("puta")
-        player.score = 10
+        player.setScore(player,10)
         print(player.score)
 
 
@@ -47,11 +46,10 @@ def on_key_press(symbol, modifiers):
     elif symbol == pyglet.window.key.S:
         circulo.y -= 50
     comprobarFronteras(circulo.x,circulo.y)
-   
+    comprobarPuntos(circulo.x,circulo.y,star.x,star.y)
 
 @main.event
 def on_draw():
-    comprobarPuntos(circulo.x,circulo.y,star.x,star.y)
     main.clear()
     gui.draw()
     manzanas.draw()
