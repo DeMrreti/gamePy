@@ -3,3 +3,4 @@ height = 650
 width = 600
 msg = 'SCORE:'
 menu = True
+cuentaRegresiva = 30

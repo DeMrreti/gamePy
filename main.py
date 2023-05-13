@@ -7,6 +7,7 @@ import constants
 config = pyglet.gl.Config(
     double_buffer=True
 )
+
 main = pyglet.window.Window(
     constants.width,
     constants.height,
@@ -14,10 +15,6 @@ main = pyglet.window.Window(
 )
 icon = pyglet.image.load('apple.ico')
 main.set_icon(icon)
-
-#game = pyglet.window.Window(constants.width, constants.height, constants.name, config=config, vsync=False)
-#icon = pyglet.image.load('apple.ico')
-#game.set_icon(icon)
 
 #COGER ENTRADA DE TECLADO DE LA VENTANA PRINCIPAL
 
@@ -46,7 +43,6 @@ fps_display.label.font_size = 18
 fps_display.label.x = 100
 fps_display.label.y = constants.width+15
 
-
 player = {
     "name" : "Player1",
     "score" : 0
@@ -60,15 +56,18 @@ tierra = pyglet.shapes.Rectangle(
     color=(60,152,0),
     batch=gui
 )
+
 puntos = pyglet.text.Label(
     text=str(player["score"]),
     font_size=18,
     x=500,
     y=constants.width+15,
     color=(255,255,255,255),
-    batch=gui,align='right',
+    batch=gui,
+    align='right',
     width=80
 )
+
 linea = pyglet.shapes.Line(
     x = 0,
     y = constants.width+1,
@@ -78,6 +77,7 @@ linea = pyglet.shapes.Line(
     color=(255,255,255),
     batch=gui
 )
+
 fps = pyglet.text.Label(
     text="FPS:",
     font_size=18,
@@ -86,6 +86,7 @@ fps = pyglet.text.Label(
     color=(255,255,255,255),
     batch=gui
 )
+
 texto = pyglet.text.Label(
     text=constants.msg,
     font_size=18,
@@ -94,6 +95,7 @@ texto = pyglet.text.Label(
     color=(255,255,255,255),
     batch=gui
 )
+
 circulo = pyglet.shapes.Rectangle(
     x = 250,
     y = 250,
@@ -174,12 +176,22 @@ icon_menu = pyglet.sprite.Sprite(
     y=330
 )
 
+cuentaRegresiva = pyglet.text.Label(
+    text=str(constants.cuentaRegresiva),
+    color=(255,255,255,255),
+    font_size=22,
+    bold=True,
+    align='rigth',
+    x = 313,
+    y = constants.height - 35
+)
+
 #FUNCIONES
 
 def comprobarFronteras(x,y):
     global bird
     if x >= constants.width:
-        circulo.x = 0;
+        circulo.x = 0
     elif x <= -50:
         circulo.x = constants.width-50
     if y >= constants.width:
@@ -196,6 +208,11 @@ def comprobarPuntos(x,y,x2,y2):
         puntos.text = str(player["score"])
         star = manzana.apple(manzanas)
         apple_sprite.x, apple_sprite.y = star.apple.x-15, star.apple.y-15
+
+def cuenta(dt):
+    if constants.menu == False:
+        constants.cuentaRegresiva -= 1
+        cuentaRegresiva.text = str(constants.cuentaRegresiva)   
 
 def update(dt):
     global bird
@@ -247,7 +264,9 @@ def on_draw():
         bird_sprite.draw()
         apple_sprite.draw()
         fps_display.draw()
-    
+        cuentaRegresiva.draw()
+
+pyglet.clock.schedule_interval(cuenta, 1/1)
 pyglet.clock.schedule_interval(update, 1/10)
 
 pyglet.app.run()
