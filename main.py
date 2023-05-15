@@ -197,21 +197,21 @@ panel_final_sprite = pyglet.sprite.Sprite(
 )
 
 final_score = pyglet.text.Label(
-    text="Score: " + str(player["score"]),
+    text=" ",
     color=(255,255,255,255),
     font_size=24,
     bold=True,
     align='center',
-    x = 250,
+    x = 225,
     y = 330
 )
 
-button_restar_game = pyglet.resource.image("play.png")
-button_restar_game.width , button_restar_game.height = 250, 150
+button_restar_game = pyglet.resource.image("restart.png")
+button_restar_game.width , button_restar_game.height = 250, 200
 button_restar_game_sprite = pyglet.sprite.Sprite(
     button_restar_game,
     x = 180,
-    y = 200
+    y = 180
 )
 
 #FUNCIONES
@@ -234,6 +234,7 @@ def comprobarPuntos(x,y,x2,y2):
         star.apple.color = (0,0,0,0)
         player["score"] += 10
         puntos.text = str(player["score"])
+        final_score.text = "Score: " + str(player["score"])
         star = manzana.apple(manzanas)
         apple_sprite.x, apple_sprite.y = star.apple.x-15, star.apple.y-15
 
