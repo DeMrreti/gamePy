@@ -181,9 +181,37 @@ cuentaRegresiva = pyglet.text.Label(
     color=(255,255,255,255),
     font_size=22,
     bold=True,
-    align='rigth',
+    align='center',
     x = 313,
-    y = constants.height - 35
+    y = constants.height - 35,
+    width=35,
+    height=40,
+)
+
+panel_final = pyglet.resource.image("panel_tiempo.png")
+panel_final.width , panel_final.height = 300, 200
+panel_final_sprite = pyglet.sprite.Sprite(
+    panel_final,
+    x = 150,
+    y = 200
+)
+
+final_score = pyglet.text.Label(
+    text="Score: " + str(player["score"]),
+    color=(255,255,255,255),
+    font_size=24,
+    bold=True,
+    align='center',
+    x = 250,
+    y = 330
+)
+
+button_restar_game = pyglet.resource.image("play.png")
+button_restar_game.width , button_restar_game.height = 250, 150
+button_restar_game_sprite = pyglet.sprite.Sprite(
+    button_restar_game,
+    x = 180,
+    y = 200
 )
 
 #FUNCIONES
@@ -210,29 +238,32 @@ def comprobarPuntos(x,y,x2,y2):
         apple_sprite.x, apple_sprite.y = star.apple.x-15, star.apple.y-15
 
 def cuenta(dt):
-    if constants.menu == False:
+    if constants.menu == False and constants.cuentaRegresiva > 0:
         constants.cuentaRegresiva -= 1
-        cuentaRegresiva.text = str(constants.cuentaRegresiva)   
+        cuentaRegresiva.text = str(constants.cuentaRegresiva)
+    elif constants.cuentaRegresiva == 0:
+        pass
 
 def update(dt):
     global bird
-    if key_handler[pyglet.window.key.A]:
-        circulo.x -= 50
-    elif key_handler[pyglet.window.key.D]:
-        circulo.x += 50
-    elif key_handler[pyglet.window.key.W]:
-        circulo.y += 50
-    elif key_handler[pyglet.window.key.S]:
-        circulo.y -= 50
-    elif key_handler[pyglet.window.key.LEFT]:
-        circulo.x -= 50
-    elif key_handler[pyglet.window.key.RIGHT]:
-        circulo.x += 50
-    elif key_handler[pyglet.window.key.UP]:
-        circulo.y += 50
-    elif key_handler[pyglet.window.key.DOWN]:
-        circulo.y -= 50
-    bird_sprite.x, bird_sprite.y = circulo.x, circulo.y
+    if constants.cuentaRegresiva > 0:
+        if key_handler[pyglet.window.key.A]:
+            circulo.x -= 50
+        elif key_handler[pyglet.window.key.D]:
+            circulo.x += 50
+        elif key_handler[pyglet.window.key.W]:
+            circulo.y += 50
+        elif key_handler[pyglet.window.key.S]:
+            circulo.y -= 50
+        elif key_handler[pyglet.window.key.LEFT]:
+            circulo.x -= 50
+        elif key_handler[pyglet.window.key.RIGHT]:
+            circulo.x += 50
+        elif key_handler[pyglet.window.key.UP]:
+            circulo.y += 50
+        elif key_handler[pyglet.window.key.DOWN]:
+            circulo.y -= 50
+        bird_sprite.x, bird_sprite.y = circulo.x, circulo.y
     comprobarFronteras(circulo.x,circulo.y)
     comprobarPuntos(circulo.x,circulo.y,star.apple.x,star.apple.y)
     
@@ -265,6 +296,10 @@ def on_draw():
         apple_sprite.draw()
         fps_display.draw()
         cuentaRegresiva.draw()
+    if constants.cuentaRegresiva == 0:
+        panel_final_sprite.draw()
+        final_score.draw()
+        button_restar_game_sprite.draw()
 
 pyglet.clock.schedule_interval(cuenta, 1/1)
 pyglet.clock.schedule_interval(update, 1/10)
